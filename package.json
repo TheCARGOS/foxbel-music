@@ -1,7 +1,8 @@
 {
   "name": "foxbel-music-app",
   "version": "0.1.0",
-  "private": true,
+  "proxy": "https://api.deezer.com/",
+  "private": false,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
