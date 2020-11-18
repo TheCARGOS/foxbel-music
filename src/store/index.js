@@ -72,12 +72,12 @@ export default new Vuex.Store({
   },
   actions: {
     async getGenres (ctx) {
-      const response = await fetch(`/genre`)
+      const response = await fetch(`https://api.deezer.com/genre`)
       const payload = await response.json()
       ctx.commit("getGenres", payload.data)
     },
     async getResults (ctx, word) {
-      const response = await fetch(`/search?q=${word}`)
+      const response = await fetch(`https://api.deezer.com/search?q=${word}`)
       const payload = await response.json()
       ctx.commit("getResults", payload.data)
     },
