@@ -1,17 +1,15 @@
 <template>
-    <div class="podcast-app">
+    <div class="song-app">
         <fu-search></fu-search>
         <fu-details></fu-details>
 
-        <div class="podcast-app__results">
-            <h1 class="podcast-app__results__title">Resultados</h1>
-            <div class="podcast-app__results__podcasts">
-                <div v-for="podcast in podcasts" :key="podcast.id">
-                    <podcast-item
-                        :image="podcast.urls.logo_image.original"
-                        :name="podcast.title"
-                        :album="podcast.album"
-                    ></podcast-item>
+        <div class="song-app__results">
+            <h1 class="song-app__results__title">Resultados</h1>
+            <div class="song-app__results__songs">
+                <div v-for="song in songs" :key="song.id">
+                    <song-item
+                        :song="song"
+                    ></song-item>
                 </div>
             </div>
         </div>
@@ -21,7 +19,7 @@
 <script>
 import FuSearch from './FuSearch.vue';
 import FuDetails from './FuDetails.vue';
-import PodcastItem from './PodcastItem.vue';
+import SongItem from './SongItem.vue';
 
 // import { mapGetters } from "vuex"
 
@@ -30,38 +28,44 @@ export default {
     components: {
         FuSearch,
         FuDetails,
-        PodcastItem
+        SongItem
     },
-    computed: {
-        getFirstPodcast () {
-            return this.$store.state.currentPodcasts[0]
-        }
-    },
-    created () {
-        this.$store.dispatch("setPodcasts")
-    }
+    props: [
+        "songs"
+    ]
+   
 }
 </script>
 
 <style>
-    .podcast-app {
+    .song-app {
         max-height: 100vh;
         padding: 0 40px;
     }
 
-    .podcast-app__results__title {
+    .song-app__results__title {
         font-size: 22px;
         color: #E86060;
         line-height: 27.5px;
     }
 
-    .podcast-app__results__podcasts {
+    .song-app__results__songs {
         padding: 20px 0;
         display: grid;
-        grid-template-columns: repeat(auto-fill, 160px);
+        grid-template-columns: repeat(2, 160px);
         grid-template-rows: repeat(auto-fill, 160px);
-        gap: 22px;
         row-gap: 66px;
+        column-gap: 14px;
+        margin-bottom: 150px;
+    }
+
+    @media screen and (min-width: 460px) {
+        .song-app__results__songs {
+            grid-template-columns: repeat(auto-fill, 160px);
+            grid-template-rows: repeat(auto-fill, 160px);
+            gap: 22px;
+            row-gap: 66px;
+        }
     }
     
 </style>

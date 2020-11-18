@@ -1,9 +1,12 @@
 <template>
   <div class="fu-player">
-    <img class="fu-player__image" :src="image_url" :alt="name" />
+    <img class="fu-player__image" :src="selectedSong.album.cover_big" :alt="selectedSong.artist.name" />
     <div class="fu-player__details">
-      <p class="fu-player__name">{{ name }}</p>
-      <p class="fu-player__album">{{ album }}</p>
+      <p class="fu-player__name">{{ selectedSong.title_short }}</p>
+      <div class="fu-player__artist">
+        <img class="fu-player__artist__img" :src="selectedSong.artist.picture_small" alt="selectedSong.artist.name">
+        <span class="fu-player__artist__name">{{ selectedSong.artist.name }}</span>
+      </div>
     </div>
     <div class="fu-player__play" @click="handlePodcast">
       <i v-if="isPaused" class="fas fa-play"></i>
@@ -28,30 +31,29 @@
 
 <script>
 export default {
+  mounted () {
+    this.audio.src = this.selectedSong.preview
+  },
   data() {
     return {
-      audio: new Audio(this.url),
+      audio: new Audio(),
       isPaused: true,
-      volume: 50,
-    };
+      volume: 50
+    }
   },
-  props: {
-    name: {
-      type: String,
-      required: true,
-    },
-    album: {
-      type: String,
-      required: true,
-    },
-    url: {
-      type: String,
-      required: true,
-    },
-    image_url: {
-      type: String,
-      required: true,
-    },
+  computed: {
+    selectedSong () {
+      return this.$store.getters.selectedSong
+    }
+  },
+  watch: {
+    selectedSong: {
+      handler () {
+        this.audio.src = this.selectedSong.preview
+        this.audio.pause()
+        this.isPaused = true
+      }
+    }
   },
   methods: {
     handlePodcast() {
@@ -83,11 +85,18 @@ export default {
 .fu-player {
   display: grid;
   grid-template-columns: 100px repeat(3, 1fr);
-  background-color: #2196F3;
+  background-color: #EB5757;
   width: 100%;
   height: 100px;
   position: fixed;
   bottom: 0;
+  left: 0;
+}
+
+@media screen and (min-width: 1024px) {
+  .fu-player {
+    z-index: 50000;
+  }
 }
 
 .fu-player__image {
@@ -108,7 +117,21 @@ export default {
   font-size: 14px;
 }
 
-.fu-player__album {
+.fu-player__artist {
+    display: flex;
+    align-items: center;
+    padding-top: 10px;
+}
+
+.fu-player__artist__img {
+    border-radius: 50%;
+    height: 25px;
+    width: 25px;
+    object-fit: cover;
+    margin-right: 15px;
+}
+
+.fu-player__artist__name {
   font-weight: 400;
   font-size: 12px;
 }
@@ -118,7 +141,7 @@ export default {
   justify-self: center;
   color: white;
   font-size: 20px;
-  background-color: #6ABDFF;
+  background-color: #FF7676;
   height: 60px;
   width: 60px;
   display: flex;
@@ -133,6 +156,8 @@ export default {
   align-items: center;
   margin-right: 32px;
   justify-self: end;
+  justify-content: space-around;
+  padding-left: 10px;
 }
 
 .fu-player__volumeRange {
@@ -141,6 +166,7 @@ export default {
   border-radius: 8px;
   height: 6px;
   cursor: pointer;
+  width: 50px;
 }
 
 .fu-player__volumeRange::-webkit-slider-thumb {
@@ -157,5 +183,15 @@ export default {
   font-size: 20px;
   margin-left: 40px;
   cursor: pointer;
+}
+
+@media screen and (min-width: 760px) {
+  .fu-player__volume {
+    justify-self: end;
+  }
+
+  .fu-player__volumeRange {
+    width: 150px;
+  }
 }
 </style>
