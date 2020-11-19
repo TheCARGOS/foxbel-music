@@ -7,10 +7,9 @@
       <h2 class="sidenav__list__title">Mi libreria</h2>
       <ul class="sidenav__list__ul">
         <li class="sidenav__list__item">Recientes</li>
-        <li class="sidenav__list__item">Artistas</li>
-        <li class="sidenav__list__item">Albums</li>
-        <li class="sidenav__list__item">Canciones</li>
-        <li class="sidenav__list__item">Estaciones</li>
+        <li class="sidenav__list__item" @click="setFilter('artist')">Artistas</li>
+        <li class="sidenav__list__item" @click="setFilter('album')">Albums</li>
+        <li class="sidenav__list__item" @click="setFilter('track')">Canciones</li>
       </ul>
     </div>
 
@@ -33,6 +32,9 @@ export default {
         closeSidenav () {
             const sidenav = document.getElementsByClassName("sidenav")[0]
             sidenav.classList.add("sidenav--hidden")
+        },
+        setFilter (value) {
+            this.$store.dispatch("setFilter", value)
         }
     }
 }

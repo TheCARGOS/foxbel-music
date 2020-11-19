@@ -1,11 +1,26 @@
 <template>
-    <div class="song-item" @click="selectSong(song)">
+    <div v-if="song.type == 'track'" class="song-item" @click="selectSong(song)">
         <figure class="song-item__figure">
             <img class="song-item__figure__img" :src="song.album.cover_big" :alt="song.title">
             <i class="fas fa-play song-item__figure__icon"></i>
         </figure>
         <h2 class="song-item__title">{{ song.title_short }}</h2>
         <h3 class="song-item__subtitle">{{ song.artist.name }}</h3>
+    </div>
+    <div v-else-if="song.type == 'album'" class="song-item">
+        <figure class="song-item__figure">
+            <img class="song-item__figure__img" :src="song.cover_big" :alt="song.title">
+            <i class="fas fa-play song-item__figure__icon"></i>
+        </figure>
+        <h2 class="song-item__title">{{ song.title }} - Album</h2>
+        <h3 class="song-item__subtitle">{{ song.artist.name }}</h3>
+    </div>
+    <div v-else class="song-item">
+        <figure class="song-item__figure">
+            <img class="song-item__figure__img" :src="song.picture_big" :alt="song.name">
+            <i class="fas fa-play song-item__figure__icon"></i>
+        </figure>
+        <h2 class="song-item__title">{{ song.name }} - Artist</h2>
     </div>
 </template>
 

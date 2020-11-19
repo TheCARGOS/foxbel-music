@@ -47,6 +47,7 @@ export default new Vuex.Store({
       "type": "track"
     },
     selectedArtist: {},
+    selectedFilter: "",
     genres: [],
     results: []
   },
@@ -68,6 +69,9 @@ export default new Vuex.Store({
     },
     toggleIsPaused (state, bool) {
       state.isPaused = bool
+    },
+    setFilter (state, value) {
+      state.selectedFilter = value
     }
   },
   actions: {
@@ -77,7 +81,12 @@ export default new Vuex.Store({
       ctx.commit("getGenres", payload.data)
     },
     async getResults (ctx, word) {
-      const response = await fetch(`/search?q=${word}`)
+      let url = ""
+      ctx.state.selectedFilter.length > 0 ?
+      url = `/search/${ctx.state.selectedFilter}?q=${word}`:
+      url = `/search?q=${word}`
+
+      const response = await fetch(url)
       const payload = await response.json()
       ctx.commit("getResults", payload.data)
     },
@@ -86,6 +95,9 @@ export default new Vuex.Store({
     },
     async toggleIsPaused (ctx, bool) {
       ctx.commit("toggleIsPaused", bool)
+    },
+    setFilter(ctx, value) {
+      ctx.commit("setFilter", value)
     }
   },
   modules: {
