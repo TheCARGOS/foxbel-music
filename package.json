@@ -1,8 +1,6 @@
 {
   "name": "foxbel-music-app",
   "version": "0.1.0",
-  "proxy": "https://api.deezer.com/",
-  "homepage": "https://thecargos.github.io/foxbel-music/",
   "private": false,
   "scripts": {
     "serve": "vue-cli-service serve",
